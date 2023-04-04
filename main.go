@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
 	"strconv"
 )
 
@@ -20,6 +19,9 @@ func main() {
 }
 
 func install(software, version string) {
+	fmt.Println("Where do you want to install your server? (E.G: /home/username/minecraft) (This will be created if it doesn't exist)")
+	var path string
+	fmt.Scanln(&path)
 	fmt.Println("Installing " + software + " " + version)
 	if software == "paper" || software == "Paper" {
 		if version == "latest" {
@@ -46,11 +48,7 @@ func install(software, version string) {
 				// //get build url
 				buildsUrl := "https://api.papermc.io/v2/projects/paper/versions/" + version + "/builds/" + PbuildVer
 				// BuildsRes, BuildsErr := http.Get(buildsUrl)
-				PdownloadUrl := "wget -O paper.jar " + buildsUrl
-				fmt.Println("Getting download from", PdownloadUrl)
-				downloadRes := exec.Command(PdownloadUrl)
-				fmt.Println(downloadRes)
-				downloadRes.Run()
+				downloadJar(buildsUrl)
 				fmt.Println("Downloaded Paper " + version + " successfully!")
 				fmt.Println("Installed Paper " + version + " successfully!")
 				// Install Paper
@@ -76,6 +74,36 @@ func getBuildVer(jsonIn string) string {
 		}
 	}
 	fmt.Println("Using build version: ", max)
-	dataOut := strconv.FormatFloat(max, 'E', -1, 64)
+	var float_to_int int = int(max)
+	dataOut := strconv.Itoa(float_to_int)
+	// dataOut := strconv.FormatFloat(max, 'E', -1, 64)
 	return dataOut
+}
+
+func downloadJar(url string) {
+	err := DownloadFile("paper.jar", url)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func DownloadFile(filepath string, url string) error {
+
+	// Get the data
+	resp, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	// Create the file
+	out, err := os.Create(filepath)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	// Write the body to file
+	_, err = io.Copy(out, resp.Body)
+	return err
 }
