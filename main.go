@@ -2,10 +2,29 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 func main() {
 	//soon TM
+	argsWithProg := os.Args
+	if argsWithProg[1] == "install" {
+		install()
+	} else if argsWithProg[1] == "run" {
+		fmt.Println("What port do you want to connect to? (E.G: 25565)")
+		var port string
+		fmt.Scanln(&port)
+		fmt.Println("What is the rcon password? (E.G: password)")
+		var password string
+		fmt.Scanln(&password)
+		fmt.Println("What command do you want to run? (E.G: say hello world)")
+		var command string
+		fmt.Scanln(&command)
+		rcon(port, password, command)
+	}
+}
+
+func install() {
 	fmt.Println("What version of paper do you want to install? (E.G: 1.16.5)")
 	var version string
 	fmt.Scanln(&version)
@@ -13,12 +32,9 @@ func main() {
 	var software string
 	fmt.Scanln(&software)
 	install(software, version)
-}
-
-func install(software, version string) {
-	fmt.Println("Where do you want to install your server? (E.G: /home/username/minecraft) (This will be created if it doesn't exist)")
-	var path string
-	fmt.Scanln(&path)
+	// fmt.Println("Where do you want to install your server? (E.G: /home/username/minecraft) (This will be created if it doesn't exist)")
+	// var path string
+	// fmt.Scanln(&path)
 	fmt.Println("Installing " + software + " " + version)
 	if software == "paper" || software == "Paper" {
 		paperInstall(version)
