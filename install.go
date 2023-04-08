@@ -34,7 +34,7 @@ func paperInstall(version string) {
 			fmt.Println("Using build version: ", PbuildVer)
 
 			// //get build url
-			buildsUrl := "https://api.papermc.io/v2/projects/paper/versions/" + version + "/builds/" + PbuildVer
+			buildsUrl := "https://api.papermc.io/v2/projects/paper/versions/" + version + "/builds/" + PbuildVer + "/downloads/paper-" + version + "-" + PbuildVer + ".jar"
 			// BuildsRes, BuildsErr := http.Get(buildsUrl)
 			downloadJar(buildsUrl)
 			fmt.Println("Downloaded Paper " + version + " successfully!")
