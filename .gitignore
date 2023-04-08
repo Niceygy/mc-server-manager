@@ -18,3 +18,12 @@
 main
 mcsm
 main
+#mc server for testing
+logs
+libraries
+cache
+plugins
+world
+versions
+server.properties
+*.txt

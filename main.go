@@ -6,21 +6,9 @@ import (
 )
 
 func main() {
-	//soon TM
-	//argsWithProg := os.Args
 	if os.Args[1] == "install" {
 		install()
 	} else if os.Args[1] == "run" {
-		// fmt.Println("What port do you want to connect to? (E.G: 25565)")
-		// var port string
-		// fmt.Scanln(&port)
-		// fmt.Println("What is the rcon password? (E.G: password)")
-		// var password string
-		// fmt.Scanln(&password)
-		// fmt.Println("What command do you want to run? (E.G: say hello world)")
-		// var command string
-		// fmt.Scanln(&command)
-		// rcon(port, password, command)
 		fmt.Println("Starting server...")
 		startServer("./server", "2G")
 	}
