@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,6 +10,55 @@ import (
 	"os"
 	"strconv"
 )
+
+func main() {
+	log.Println("Started!")
+	var serverVer = getServerVersion()
+	var serverSoft = getServerSoftware()
+	if serverSoft == "paper" {
+		paperInstall(serverVer)
+	} else if serverSoft == "fabric" {
+		fabricInstall(serverVer)
+	} else {
+		log.Println("Sorry, this server software is not supported yet.")
+	}
+}
+
+func getServerVersion() string {
+	f, err := os.Open("/var/mc/server/serverVersion")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+	return scanner.Text()
+}
+
+func getServerSoftware() string {
+	f, err := os.Open("/var/mc/server/serverSoftware")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+	return scanner.Text()
+}
 
 func paperInstall(version string) {
 

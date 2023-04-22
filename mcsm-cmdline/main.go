@@ -6,7 +6,10 @@ import (
 )
 
 func main() {
-	if os.Args[1] == "install" {
+	if len(os.Args) == 0 {
+		fmt.Println("Please specify an argument. (E.G: install, run)")
+		os.Exit(0)
+	} else if os.Args[1] == "install" {
 		install()
 	} else if os.Args[1] == "run" {
 		fmt.Println("Starting server...")
